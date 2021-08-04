@@ -14,35 +14,42 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  action               = "bd-learn-disable"
+  admin_state          = true
+  detection_interval   = 90
+  detection_multiplier = 10
 }
 
-data "aci_rest" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest" "epLoopProtectP" {
+  dn = "uni/infra/epLoopProtectP-default"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "epLoopProtectP" {
+  component = "epLoopProtectP"
 
-  equal "name" {
-    description = "name"
-    got         = data.aci_rest.fvTenant.content.name
-    want        = "ABC"
+  equal "action" {
+    description = "action"
+    got         = data.aci_rest.epLoopProtectP.content.action
+    want        = "bd-learn-disable"
   }
 
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest.fvTenant.content.nameAlias
-    want        = "ALIAS"
+  equal "adminSt" {
+    description = "adminSt"
+    got         = data.aci_rest.epLoopProtectP.content.adminSt
+    want        = "enabled"
   }
 
-  equal "descr" {
-    description = "descr"
-    got         = data.aci_rest.fvTenant.content.descr
-    want        = "DESCR"
+  equal "loopDetectIntvl" {
+    description = "loopDetectIntvl"
+    got         = data.aci_rest.epLoopProtectP.content.loopDetectIntvl
+    want        = "90"
+  }
+
+  equal "loopDetectMult" {
+    description = "loopDetectMult"
+    got         = data.aci_rest.epLoopProtectP.content.loopDetectMult
+    want        = "10"
   }
 }

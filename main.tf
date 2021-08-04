@@ -1,9 +1,10 @@
-resource "aci_rest" "fvTenant" {
-  dn         = "uni/tn-${var.name}"
-  class_name = "fvTenant"
+resource "aci_rest" "epLoopProtectP" {
+  dn         = "uni/infra/epLoopProtectP-default"
+  class_name = "epLoopProtectP"
   content = {
-    name      = var.name
-    nameAlias = var.alias
-    descr     = var.description
+    action          = var.action
+    adminSt         = var.admin_state == true ? "enabled" : "disabled"
+    loopDetectIntvl = var.detection_interval
+    loopDetectMult  = var.detection_multiplier
   }
 }

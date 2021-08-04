@@ -1,7 +1,8 @@
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_endpoint_loop_protection" {
+  source = "netascode/endpoint-loop-protection/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  action               = "bd-learn-disable"
+  admin_state          = true
+  detection_interval   = 90
+  detection_multiplier = 10
 }
