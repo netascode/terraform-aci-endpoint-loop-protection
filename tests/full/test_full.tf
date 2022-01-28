@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -20,7 +20,7 @@ module "main" {
   detection_multiplier = 10
 }
 
-data "aci_rest" "epLoopProtectP" {
+data "aci_rest_managed" "epLoopProtectP" {
   dn = "uni/infra/epLoopProtectP-default"
 
   depends_on = [module.main]
@@ -31,25 +31,25 @@ resource "test_assertions" "epLoopProtectP" {
 
   equal "action" {
     description = "action"
-    got         = data.aci_rest.epLoopProtectP.content.action
+    got         = data.aci_rest_managed.epLoopProtectP.content.action
     want        = "bd-learn-disable"
   }
 
   equal "adminSt" {
     description = "adminSt"
-    got         = data.aci_rest.epLoopProtectP.content.adminSt
+    got         = data.aci_rest_managed.epLoopProtectP.content.adminSt
     want        = "enabled"
   }
 
   equal "loopDetectIntvl" {
     description = "loopDetectIntvl"
-    got         = data.aci_rest.epLoopProtectP.content.loopDetectIntvl
+    got         = data.aci_rest_managed.epLoopProtectP.content.loopDetectIntvl
     want        = "90"
   }
 
   equal "loopDetectMult" {
     description = "loopDetectMult"
-    got         = data.aci_rest.epLoopProtectP.content.loopDetectMult
+    got         = data.aci_rest_managed.epLoopProtectP.content.loopDetectMult
     want        = "10"
   }
 }

@@ -1,4 +1,4 @@
-resource "aci_rest" "epLoopProtectP" {
+resource "aci_rest_managed" "epLoopProtectP" {
   dn         = "uni/infra/epLoopProtectP-default"
   class_name = "epLoopProtectP"
   content = {
